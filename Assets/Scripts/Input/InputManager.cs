@@ -13,7 +13,7 @@ public static class InputManager
         actionMap.Enable();
      }
 
-    public static float MouseLeft => actionMap.Player.Pressing.ReadValue<float>();
+    public static bool MouseLeft => actionMap.Player.Pressing.WasPerformedThisFrame();
 
 
     //public static bool IsPressing(out float button)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,33 +8,52 @@ public class ObjectPicker : MonoBehaviour
 {
     private Command command;
     private GameObject selectedObj;
-    private bool isDragging = false;
+    public bool isDragging;
+    private bool isSelected;
     [SerializeField] protected LayerMask pickable;
 
-    private void Awake() => command = new PickCommand();
+    private void Awake() => command = new PickCommand(pickable);
     private void Update()
     {
-        if (InputManager.MouseLeft != 0)
+        
+        if (InputManager.MouseLeft)
         {
-            command.Execute(this);
-        }
-
-        if (isDragging && selectedObj != null)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, Vector3.up * 3); // y a 3
-            if (groundPlane.Raycast(ray, out float enter))
+            if (!isSelected)
             {
-                Vector3 hitPoint = ray.GetPoint(enter);
-                selectedObj.transform.position = hitPoint;
+                command.Execute(this);
+                if (selectedObj != null)
+                {
+                    isSelected = true;
+                    isDragging = true;
+                }
+            }
+                
+            else
+            {
+                command = new ReleaseCommand(pickable);
+                command.Execute(this);
+                isSelected = false;
+                isDragging = false;
+                //command = new PickCommand(pickable);
             }
         }
-
-        if (InputManager.MouseLeft == 0 && isDragging)
+                
+        if (isDragging && selectedObj != null)
         {
-            isDragging = false;
-            command = new ReleaseCommand();
-            command.Execute(this);
+            MoveObjectWithMouse();
+        }
+    }
+
+        
+
+    private void MoveObjectWithMouse()
+    {
+         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.up);
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            Vector3 hitPoint = ray.GetPoint(enter);
+            selectedObj.transform.position = hitPoint;
         }
     }
 

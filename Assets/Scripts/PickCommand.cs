@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class PickCommand : Command
 {
+    LayerMask pickableLayer;
+    public PickCommand(LayerMask pickable)
+    {
+        pickableLayer = pickable;
+    }
     public override void Execute(ObjectPicker picker)
     {
-        if (InputManager.MouseLeft != 0)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, pickableLayer))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
+            if (hit.transform)
             {
-                Debug.Log("colpito");
-                if (hit.transform)
-                {
-                    picker.SetObject(hit.transform.gameObject);
-                }
+                picker.SetObject(hit.transform.gameObject);
             }
+        }
+        else
+        {
+            picker.SetObject(null);
         }
     }
 }
