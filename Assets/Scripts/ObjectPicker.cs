@@ -21,21 +21,27 @@ public class ObjectPicker : MonoBehaviour
             if (!isSelected)
             {
                 command.Execute(this);
+                
                 if (selectedObj != null)
                 {
                     isSelected = true;
                     isDragging = true;
                 }
             }
-                
             else
             {
+                
                 command = new ReleaseCommand(pickable);
                 command.Execute(this);
-                isSelected = false;
-                isDragging = false;
-                //command = new PickCommand(pickable);
+
+                if (selectedObj == null)
+                {
+                    isSelected = false;
+                    isDragging = false;
+                    command = new PickCommand(pickable);
+                }
             }
+                
         }
                 
         if (isDragging && selectedObj != null)
@@ -49,7 +55,7 @@ public class ObjectPicker : MonoBehaviour
     private void MoveObjectWithMouse()
     {
          Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.up);
+        Plane groundPlane = new (Vector3.up, Vector3.up);
         if (groundPlane.Raycast(ray, out float enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);
