@@ -5,32 +5,44 @@ using UnityEngine.InputSystem;
 
 public class ObjectPicker : MonoBehaviour
 {
-    Vector3 mousePos;
-    [SerializeField] MovableObject pickedObj;
+    private Command command;
+    private GameObject selectedObj;
+    private bool isDragging = false;
+    [SerializeField] protected LayerMask pickable;
 
-    private void Start()
-    {
-    }
-
+    private void Awake() => command = new PickCommand();
     private void Update()
     {
-        
-        mousePos = Input.mousePosition;
-        if (InputManager.MouseLeft)
+        if (InputManager.MouseLeft != 0)
+        {
+            command.Execute(this);
+        }
+
+        if (isDragging && selectedObj != null)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-        
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity) )
+            Plane groundPlane = new Plane(Vector3.up, Vector3.up * 3); // y a 3
+            if (groundPlane.Raycast(ray, out float enter))
             {
-                if (hit.transform.TryGetComponent<MovableObject>(out MovableObject obj))
-                {
-                    pickedObj = obj;
-                }
-
+                Vector3 hitPoint = ray.GetPoint(enter);
+                selectedObj.transform.position = hitPoint;
             }
-
         }
-        if (pickedObj != null) { pickedObj.Move(pickedObj.transform.position + (Vector3)Mouse.current.delta.value); }
+
+        if (InputManager.MouseLeft == 0 && isDragging)
+        {
+            isDragging = false;
+            command = new ReleaseCommand();
+            command.Execute(this);
+        }
     }
+
+    public void SetObject(GameObject obj)
+    {
+        selectedObj = obj;
+        isDragging = obj != null;
+    }
+
+    public GameObject GetObject() => selectedObj;
+    public void ChangeCommand(Command _command) => command = _command;
 }
