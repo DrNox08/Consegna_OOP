@@ -19,7 +19,7 @@ public class Turret : MonoBehaviour
         fireTime = 0;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isActive)
         {
@@ -36,14 +36,13 @@ public class Turret : MonoBehaviour
     {
         if(EnemyIsInRange()) 
         {
-            transform.LookAt(enemyPosition);
+            
             
             var (bullet, bulletLogic) = ObjectPooler.SharedInstance.GetPooledObject();
             if(bullet != null && bulletLogic != null)
             {
                 
-                bullet.transform.position = transform.position;
-                bullet.transform.rotation = transform.rotation;
+                bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
                 bullet.SetActive(true);
                 Vector3 target = (enemyPosition - transform.position);
                 bulletLogic.GoToEnemy(target);

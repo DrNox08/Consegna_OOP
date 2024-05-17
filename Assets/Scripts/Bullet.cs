@@ -7,21 +7,18 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed;
     public Rigidbody rb;
-    public Vector3 target;
+    
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        rb.velocity = target * speed * Time.deltaTime;  
-    }
+    
 
     public void GoToEnemy(Vector3 direction)
     {
-        rb.AddRelativeForce(transform.forward * speed, ForceMode.Force);
+        rb.velocity = direction * speed * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)
