@@ -6,10 +6,10 @@ using static UnityEngine.GraphicsBuffer;
 public class Turret : MonoBehaviour, IPickable
 {
     bool isActive;
-    
-    
-    [SerializeField] public float fireRate;
-    
+
+
+    public float baseFireRate;
+    public float fireRate;
     [SerializeField] protected float shootingRange;
     [SerializeField] protected LayerMask enemy;
     List<Transform> enemiesInRange;
@@ -18,6 +18,7 @@ public class Turret : MonoBehaviour, IPickable
 
     private void Start()
     {
+        baseFireRate = fireRate;
         isActive = true; // TODO: settare a false per il gioco
         fireTime = 0;
         enemiesInRange = new List<Transform>();

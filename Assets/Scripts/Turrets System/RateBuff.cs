@@ -2,16 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RateBuff : MonoBehaviour, IPickable
+public class RateBuff : MonoBehaviour, IPickable, IBuff
 {
     float fireRateMultiplier = 2f;
+    
+    List<Turret> buffedTurrets;
 
-    public void ApplyRateBuff(List<Turret> turretsOnStack)
+    private void Start()
     {
-        foreach (Turret turret in turretsOnStack)
+        buffedTurrets = new List<Turret>();
+    }
+
+
+
+    public void ApplyBuff(Turret turret)
+    {
+        if (!buffedTurrets.Contains(turret))
         {
-            turret.fireRate*=fireRateMultiplier;
+            turret.fireRate *= fireRateMultiplier;
+            buffedTurrets.Add(turret);
         }
+        
+            
+    }
+
+    public void RemoveBuff(Turret turret)
+    {
+        turret.fireRate /= fireRateMultiplier;
+        buffedTurrets.Remove(turret);
+        
     }
 }
 
