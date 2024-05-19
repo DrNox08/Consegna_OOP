@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, IPickable
 {
     bool isActive;
     
     
-    [SerializeField] protected float fireRate;
+    [SerializeField] public float fireRate;
     
     [SerializeField] protected float shootingRange;
-    [SerializeField] LayerMask enemy;
+    [SerializeField] protected LayerMask enemy;
     List<Transform> enemiesInRange;
-    Transform currentTarget;
-    float fireTime;
+    protected Transform currentTarget;
+    protected float fireTime;
 
     private void Start()
     {
@@ -38,7 +38,7 @@ public class Turret : MonoBehaviour
         }
     }
 
-    public virtual void Shoot()
+    public  void Shoot()
     {
         if (currentTarget != null)
         {

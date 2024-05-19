@@ -27,7 +27,7 @@ public class ObjectPooler : MonoBehaviour
             pooledObjects.Add(tmp);
             pooledBullets.Add(tmp.GetComponent<Bullet>());
         }
-        Debug.Log($"Initialized Object Pool with {pooledObjects.Count} objects.");
+        
     }
     public (GameObject, Bullet) GetPooledObject()
     {
@@ -35,7 +35,7 @@ public class ObjectPooler : MonoBehaviour
         {
             if (!pooledObjects[i].activeInHierarchy)
             {
-                Debug.Log("Returning pooled object.");
+                
                 return (pooledObjects[i], pooledBullets[i]);
             }
         }
@@ -43,7 +43,7 @@ public class ObjectPooler : MonoBehaviour
         Bullet newBullet = newObject.GetComponent<Bullet>();
         pooledObjects.Add(newObject);
         pooledBullets.Add(newBullet);
-        Debug.Log("Instantiated new object for pool.");
+       
         return (newObject, newBullet);
 
     }

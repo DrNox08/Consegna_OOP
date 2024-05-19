@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IPickable 
 {
     
-    void Move(Vector3 position);
+    
 }

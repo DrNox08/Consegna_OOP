@@ -15,6 +15,7 @@ public class ObjectPicker : MonoBehaviour
     private void Awake() => command = new PickCommand(pickable);
     private void Update()
     {
+        GameManager.anObjectIsHeld = selectedObj != null;
         
         if (InputManager.MouseLeft)
         {

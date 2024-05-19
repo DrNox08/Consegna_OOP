@@ -24,7 +24,7 @@ public class ReleaseCommand : Command
                 {
                     
                     float yTarget = hit.transform.position.y + hit.transform.localScale.y / 2 + selectedObj.transform.localScale.y/2;
-                    Debug.Log(yTarget);
+                    
                     Vector3 targetPosition = new(hit.transform.position.x, yTarget, hit.transform.position.z);
                     selectedObj.transform.position = targetPosition;
                     picker.SetObject(null);
