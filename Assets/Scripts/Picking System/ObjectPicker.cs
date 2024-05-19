@@ -55,7 +55,7 @@ public class ObjectPicker : MonoBehaviour
     private void MoveObjectWithMouse()
     {
          Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new (Vector3.up, Vector3.up);
+        Plane groundPlane = new (Vector3.up, Vector3.up * 2); // altezza in y dell'oggeto in picking
         if (groundPlane.Raycast(ray, out float enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);

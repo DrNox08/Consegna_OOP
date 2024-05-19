@@ -16,16 +16,22 @@ public class ReleaseCommand : Command
         {
             
             Ray ray = new (selectedObj.transform.position, Vector3.down);
-            Debug.DrawRay(selectedObj.transform.position, Vector3.down, Color.magenta);
-            if (Physics.Raycast(ray, out RaycastHit hit, 10f))
+            Debug.DrawRay(selectedObj.transform.position, Vector3.down * 20, Color.magenta, 5);
+            if (Physics.Raycast(ray, out RaycastHit hit, 20f))
             {
-                if (hit.collider.CompareTag("DropZone"))
+                Debug.Log("colpisco" + hit.collider.gameObject.name);
+                if (hit.collider.CompareTag("DropZone") || hit.collider.transform.TryGetComponent<IPickable>(out _))
                 {
-                    Debug.Log("la tag è: " + hit.collider.tag);
+                    
+                    float yTarget = hit.transform.position.y + hit.transform.localScale.y / 2 + selectedObj.transform.localScale.y/2;
+                    Debug.Log(yTarget);
+                    Vector3 targetPosition = new(hit.transform.position.x, yTarget, hit.transform.position.z);
+                    selectedObj.transform.position = targetPosition;
                     picker.SetObject(null);
                     picker.ChangeCommand(new PickCommand(pickable));
                 }
             }
+                    
             
                 
                 
