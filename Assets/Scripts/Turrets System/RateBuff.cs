@@ -22,16 +22,20 @@ public class RateBuff : MonoBehaviour, IPickable, IBuff
             turret.fireRate *= fireRateMultiplier;
             buffedTurrets.Add(turret);
         }
+    }
         
             
-    }
 
     public void RemoveBuff(Turret turret)
     {
-        turret.fireRate /= fireRateMultiplier;
-        buffedTurrets.Remove(turret);
-        
+        if(buffedTurrets.Contains(turret))
+        {
+            turret.fireRate /= fireRateMultiplier;
+            buffedTurrets.Remove(turret);
+        }
     }
+
+        
 }
 
 
