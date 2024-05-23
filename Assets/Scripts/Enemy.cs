@@ -6,13 +6,11 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] int hp;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Bullet"))
-        {
-            hp--;
-        }
-    }
+    public void GetDamage(int damage) => hp -= damage;
+    
+
+    public void GetEffect() => StartCoroutine(DecreaseHealth());
+    
 
     private void Update()
     {
@@ -21,4 +19,19 @@ public class Enemy : MonoBehaviour, IDamageable
             Destroy(gameObject);
         }
     }
+
+    
+
+    IEnumerator DecreaseHealth()
+    {
+        float damageInterval = 1;
+        while (hp>0)
+        {
+            hp--;
+            yield return new WaitForSeconds(damageInterval);
+        }
+        yield return null;
+    }
+
+    
 }

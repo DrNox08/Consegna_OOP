@@ -19,7 +19,7 @@ public class ReleaseCommand : Command
             Debug.DrawRay(selectedObj.transform.position, Vector3.down * 20, Color.magenta, 5);
             if (Physics.Raycast(ray, out RaycastHit hit, 20f))
             {
-                Debug.Log("colpisco" + hit.collider.gameObject.name);
+                
                 if (hit.collider.CompareTag("DropZone") || hit.collider.transform.TryGetComponent<IPickable>(out _))
                 {
                     

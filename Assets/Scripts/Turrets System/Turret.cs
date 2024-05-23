@@ -1,11 +1,11 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class Turret : MonoBehaviour, IPickable
 {
-    bool isActive;
+    public bool isActive;
 
 
     public float baseFireRate;
@@ -19,7 +19,7 @@ public class Turret : MonoBehaviour, IPickable
     private void Start()
     {
         baseFireRate = fireRate;
-        isActive = true; // TODO: settare a false per il gioco
+        isActive = false;
         fireTime = 0;
         enemiesInRange = new List<Transform>();
     }
@@ -43,13 +43,13 @@ public class Turret : MonoBehaviour, IPickable
     {
         if (currentTarget != null)
         {
-            var (bullet, bulletLogic) = ObjectPooler.SharedInstance.GetPooledObject();
+            var (bullet, bulletLogic) = BaseBulletPooler.SharedInstance.GetPooledObject();
             if (bullet != null && bulletLogic != null)
             {
                 bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
                 bullet.SetActive(true);
                 Vector3 targetDirection = (currentTarget.position - transform.position).normalized;
-                bulletLogic.GoToEnemy(targetDirection);
+                bulletLogic.SetTarget(currentTarget);
             }
         }
     }
@@ -57,7 +57,7 @@ public class Turret : MonoBehaviour, IPickable
     void UpdateEnemiesInRange()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, shootingRange, enemy);
-        List<Transform> currentEnemies = new List<Transform>();
+        List<Transform> currentEnemies = new();
 
         foreach (var collider in colliders)
         {

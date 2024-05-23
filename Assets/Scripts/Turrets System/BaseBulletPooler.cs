@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : MonoBehaviour
+public class BaseBulletPooler : MonoBehaviour
 {
-    public static ObjectPooler SharedInstance;
+    public static BaseBulletPooler SharedInstance;
     public List<GameObject> pooledObjects;
     public List<Bullet> pooledBullets;
     public GameObject objectToPool;

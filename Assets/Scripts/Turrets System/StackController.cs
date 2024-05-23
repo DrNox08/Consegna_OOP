@@ -22,6 +22,7 @@ public class StackController : MonoBehaviour
         if (GameManager.anObjectIsHeld) return;
         if (other.TryGetComponent(out Turret turret))
         {
+            turret.isActive = true;
             foreach (IBuff buff in buffsList)
             {
                 turretList.Add(turret);
