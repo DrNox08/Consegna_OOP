@@ -6,19 +6,14 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] int hp;
 
-    public void GetDamage(int damage) => hp -= damage;
-    
-
-    public void GetEffect() => StartCoroutine(DecreaseHealth());
-    
-
-    private void Update()
+    public void GetDamage(int damage)
     {
-        if (hp<=0)
-        {
-            Destroy(gameObject);
-        }
+        hp -= damage;
+        if (hp <= 0)
+            gameObject.SetActive(false);
     }
+        
+    public void GetEffect() => StartCoroutine(DecreaseHealth());
 
     
 
@@ -31,7 +26,14 @@ public class Enemy : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(damageInterval);
         }
         yield return null;
+        gameObject.SetActive(false);
     }
+    
+
+  
+
+    
+
 
     
 }

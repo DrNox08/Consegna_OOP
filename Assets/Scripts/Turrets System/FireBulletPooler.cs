@@ -6,44 +6,49 @@ public class FireBulletPooler : MonoBehaviour
 {
     public static FireBulletPooler SharedInstance;
     public List<GameObject> pooledObjects;
-    public List<Bullet> pooledBullets;
+    public List<IBullet> pooledBullets;
     public GameObject objectToPool;
     public int amountToPool;
 
     void Awake()
     {
         SharedInstance = this;
+        pooledObjects = new List<GameObject>();
+        pooledBullets = new List<IBullet>();
+        for (int i = 0; i < amountToPool; i++)
+        {
+            CreatePooledObject();
+        }
     }
 
     void Start()
     {
-        pooledObjects = new List<GameObject>();
-        pooledBullets = new List<Bullet>();
-        GameObject tmp;
-        for (int i = 0; i < amountToPool; i++)
+    }
+
+    private void CreatePooledObject()
+    {
+        GameObject tmp = Instantiate(objectToPool);
+        tmp.SetActive(false);
+        pooledObjects.Add(tmp);
+
+        IBullet bullet = tmp.GetComponent<IBullet>();
+        if (bullet != null)
         {
-            tmp = Instantiate(objectToPool);
-            tmp.SetActive(false);
-            pooledObjects.Add(tmp);
-            pooledBullets.Add(tmp.GetComponent<Bullet>());
+            pooledBullets.Add(bullet);
         }
 
     }
-    public (GameObject, Bullet) GetPooledObject()
+
+    public (GameObject, IBullet) GetPooledObject()
     {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)
             {
-
                 return (pooledObjects[i], pooledBullets[i]);
             }
         }
-        GameObject newObject = Instantiate(objectToPool);
-        Bullet newBullet = newObject.GetComponent<Bullet>();
-        pooledObjects.Add(newObject);
-        pooledBullets.Add(newBullet);
-
-        return (newObject, newBullet);
+        CreatePooledObject();
+        return (pooledObjects[^1], pooledBullets[pooledBullets.Count - 1]);
     }
 }

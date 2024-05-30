@@ -19,7 +19,7 @@ public class RateBuff : MonoBehaviour, IPickable, IBuff
     {
         if (!buffedTurrets.Contains(turret))
         {
-            turret.fireRate *= fireRateMultiplier;
+            turret.fireRate += fireRateMultiplier;
             buffedTurrets.Add(turret);
         }
     }
@@ -30,7 +30,7 @@ public class RateBuff : MonoBehaviour, IPickable, IBuff
     {
         if(buffedTurrets.Contains(turret))
         {
-            turret.fireRate /= fireRateMultiplier;
+            turret.fireRate -= fireRateMultiplier;
             buffedTurrets.Remove(turret);
         }
     }

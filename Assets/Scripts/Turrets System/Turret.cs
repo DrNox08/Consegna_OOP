@@ -16,12 +16,21 @@ public class Turret : MonoBehaviour, IPickable
     protected Transform currentTarget;
     protected float fireTime;
 
+    //poolers
+    public (GameObject bullet, IBullet bulletLogic) baseBulletPool;
+    public (GameObject bullet, IBullet bulletLogic) fireBulletPool;
+    public (GameObject bullet, IBullet bulletLogic) currentBulletPooler;
+
     private void Start()
     {
         baseFireRate = fireRate;
         isActive = false;
         fireTime = 0;
         enemiesInRange = new List<Transform>();
+        //poolers
+        baseBulletPool = BaseBulletPooler.SharedInstance.GetPooledObject();
+        fireBulletPool = FireBulletPooler.SharedInstance.GetPooledObject();
+        currentBulletPooler = baseBulletPool;
     }
 
     private void FixedUpdate()
@@ -43,15 +52,15 @@ public class Turret : MonoBehaviour, IPickable
     {
         if (currentTarget != null)
         {
-            var (bullet, bulletLogic) = BaseBulletPooler.SharedInstance.GetPooledObject();
+            var bullet = currentBulletPooler.bullet; var bulletLogic = currentBulletPooler.bulletLogic;
             if (bullet != null && bulletLogic != null)
             {
                 bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
                 bullet.SetActive(true);
-                Vector3 targetDirection = (currentTarget.position - transform.position).normalized;
                 bulletLogic.SetTarget(currentTarget);
             }
         }
+               
     }
 
     void UpdateEnemiesInRange()
@@ -112,3 +121,4 @@ public class Turret : MonoBehaviour, IPickable
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
 }
+

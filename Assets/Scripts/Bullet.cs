@@ -1,15 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class Bullet : MonoBehaviour
+using UnityEngine;
+
+
+public class Bullet : MonoBehaviour, IBullet
 {
     [SerializeField] float speed;
-    public Rigidbody rb;
-    [SerializeField] int damage;
-    Transform enemyTarget;
+    [SerializeField] protected int damage;
+    protected Transform enemyTarget;
+     Rigidbody rb;
     
 
     private void Awake()
@@ -20,19 +18,16 @@ public class Bullet : MonoBehaviour
 
     public void SetTarget(Transform target) => enemyTarget = target;
     
-
-    public void GoToEnemy(Vector3 direction)
-    {
-        
-    }
-
     private void FixedUpdate()
     {
-        Vector3 direction = (enemyTarget.position - rb.position).normalized;
-        rb.velocity = direction * speed;
+        if (enemyTarget != null)
+        {
+            Vector3 direction = (enemyTarget.position - rb.position).normalized;
+            rb.velocity = direction * speed;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.TryGetComponent(out IDamageable damageable))
         {
@@ -41,9 +36,5 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnBecameInvisible()
-    {
-        Debug.Log("è invisibile");
-        gameObject.SetActive(false);
-    }
+   
 }
