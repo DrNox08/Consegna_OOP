@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
+  redMaterial: {fileID: 2100000, guid: 08636c1fcfe00bb418832b1984af1caf, type: 2}
 --- !u!195 &8596394731868143077
 NavMeshAgent:
   m_ObjectHideFlags: 0

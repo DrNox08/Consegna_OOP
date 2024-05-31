@@ -56,11 +56,11 @@ public class Turret : MonoBehaviour, IPickable
                     bullet.SetActive(true);
                     bulletLogic.SetTarget(currentTarget);
                 }
-                    
             }
+    }
+                    
             
                
-    }
 
     void UpdateEnemiesInRange()
     {
@@ -83,16 +83,16 @@ public class Turret : MonoBehaviour, IPickable
         
         
 
-    void UpdateTarget()
+    void UpdateTarget() // decide quale enemy andare a prendere
     {
         if (currentTarget == null && enemiesInRange.Count > 0)
         {
-            currentTarget = enemiesInRange[0];
+            currentTarget = enemiesInRange[0]; // se c'è più di un enemy prende il primo e si gode
         }
 
-        if (currentTarget != null && !EnemyIsInRange(currentTarget))
+        if (currentTarget != null && !EnemyIsInRange(currentTarget)) 
         {
-            enemiesInRange.Remove(currentTarget);
+            enemiesInRange.Remove(currentTarget); // se l'enemy è uscito dal range, target è null e ricomincia
             currentTarget = null;
         }
     }

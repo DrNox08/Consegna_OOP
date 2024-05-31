@@ -5,9 +5,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] int hp;
+    [SerializeField] Material redMaterial;
+    Renderer objRenderer;
     int fullHP;
 
     Vector3 startPosition;
+
+    private void Awake()
+    {
+        objRenderer = GetComponent<Renderer>();
+    }
 
     private void Start()
     {
@@ -28,6 +35,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     IEnumerator DecreaseHealth()
     {
+        objRenderer.material = redMaterial;
         float damageInterval = 1;
         while (hp>0)
         {
