@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBulletPooler : MonoBehaviour
+public class FireBulletPooler : MonoBehaviour, IBulletPooler
 {
     public static FireBulletPooler SharedInstance;
     public List<GameObject> pooledObjects;

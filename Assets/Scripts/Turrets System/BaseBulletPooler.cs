@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBulletPooler : MonoBehaviour
+public class BaseBulletPooler : MonoBehaviour, IBulletPooler
 {
     public static BaseBulletPooler SharedInstance;
     public List<GameObject> pooledObjects;
@@ -26,8 +26,7 @@ public class BaseBulletPooler : MonoBehaviour
         tmp.SetActive(false);
         pooledObjects.Add(tmp);
 
-        IBullet bullet = tmp.GetComponent<IBullet>();
-        if (bullet != null)
+        if (tmp.TryGetComponent<IBullet>(out var bullet))
         {
             pooledBullets.Add(bullet);
         }

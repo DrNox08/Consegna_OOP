@@ -6,12 +6,12 @@ public class FireBuff : MonoBehaviour, IBuff
 {
     public void ApplyBuff(Turret turret)
     {
-        turret.currentBulletPooler = turret.fireBulletPool;
+        turret.currentPooler = FireBulletPooler.SharedInstance;
     }
 
     public void RemoveBuff(Turret turret)
     {
-        turret.currentBulletPooler = turret.baseBulletPool;
+        turret.currentPooler = BaseBulletPooler.SharedInstance;
     }
 }
 

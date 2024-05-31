@@ -27,6 +27,8 @@ public class Bullet : MonoBehaviour, IBullet
         }
     }
 
+
+
     public virtual void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.TryGetComponent(out IDamageable damageable))

@@ -17,9 +17,7 @@ public class Turret : MonoBehaviour, IPickable
     protected float fireTime;
 
     //poolers
-    public (GameObject bullet, IBullet bulletLogic) baseBulletPool;
-    public (GameObject bullet, IBullet bulletLogic) fireBulletPool;
-    public (GameObject bullet, IBullet bulletLogic) currentBulletPooler;
+    public IBulletPooler currentPooler;
 
     private void Start()
     {
@@ -28,9 +26,8 @@ public class Turret : MonoBehaviour, IPickable
         fireTime = 0;
         enemiesInRange = new List<Transform>();
         //poolers
-        baseBulletPool = BaseBulletPooler.SharedInstance.GetPooledObject();
-        fireBulletPool = FireBulletPooler.SharedInstance.GetPooledObject();
-        currentBulletPooler = baseBulletPool;
+
+        currentPooler = BaseBulletPooler.SharedInstance;
     }
 
     private void FixedUpdate()
@@ -50,16 +47,18 @@ public class Turret : MonoBehaviour, IPickable
 
     public  void Shoot()
     {
-        if (currentTarget != null)
-        {
-            var bullet = currentBulletPooler.bullet; var bulletLogic = currentBulletPooler.bulletLogic;
-            if (bullet != null && bulletLogic != null)
+            if (currentTarget != null)
             {
-                bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
-                bullet.SetActive(true);
-                bulletLogic.SetTarget(currentTarget);
+                var ( bullet, bulletLogic ) = currentPooler.GetPooledObject();
+                if (bullet != null && bulletLogic != null)
+                {
+                    bullet.transform.position = transform.position;
+                    bullet.SetActive(true);
+                    bulletLogic.SetTarget(currentTarget);
+                }
+                    
             }
-        }
+            
                
     }
 

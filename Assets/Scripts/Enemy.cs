@@ -5,6 +5,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] int hp;
+    int fullHP;
+
+    Vector3 startPosition;
+
+    private void Start()
+    {
+        startPosition = transform.position;
+    }
+        
 
     public void GetDamage(int damage)
     {
@@ -27,13 +36,26 @@ public class Enemy : MonoBehaviour, IDamageable
         }
         yield return null;
         gameObject.SetActive(false);
+        
     }
-    
 
-  
+    private void OnEnable()
+    {
+        fullHP = hp;
+        gameObject.layer = 7;
+    }
 
-    
+    private void OnDisable()
+    {
+        hp = fullHP;
+        transform.position = startPosition;
+    }
 
 
-    
+
+
+
+
+
+
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RateBuff : MonoBehaviour, IPickable, IBuff
 {
-    float fireRateMultiplier = 2f;
+    readonly float fireRateMultiplier = 1f;
     
     List<Turret> buffedTurrets;
 
