@@ -9,9 +9,10 @@ public class Turret : MonoBehaviour, IPickable, ITurret
 
 
     
-    protected float fireRate;
+    [SerializeField] protected float fireRate;
     [SerializeField] protected float shootingRange;
     [SerializeField] protected LayerMask enemy;
+    [SerializeField] protected float shootDelay;
     List<Transform> enemiesInRange;
     protected Transform currentTarget;
     protected float fireTime;
@@ -41,7 +42,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
             if (Time.time >= fireTime)
             {
                 Shoot();
-                fireTime = Time.time + 1f / fireRate;
+                fireTime = Time.time + shootDelay / fireRate;
             }
 
             UpdateEnemiesInRange();
