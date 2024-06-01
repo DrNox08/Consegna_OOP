@@ -8,10 +8,12 @@ public class EnemyPooler : MonoBehaviour
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
     public int amountToPool;
+    private int enemiesToActivate;
 
     void Awake()
     {
         SharedInstance = this;
+        enemiesToActivate = 1; 
     }
 
     void Start()
@@ -26,6 +28,15 @@ public class EnemyPooler : MonoBehaviour
             pooledObjects.Add(tmp);
         }
     }
+
+    void ExpandPool()
+    {
+        GameObject newObj = Instantiate(objectToPool);
+        newObj.SetActive(false);
+        newObj.transform.position = transform.position;
+        pooledObjects.Add(newObj);
+    }
+
     public GameObject GetPooledObject()
     {
         foreach (var objToPull in pooledObjects)
@@ -38,5 +49,35 @@ public class EnemyPooler : MonoBehaviour
         GameObject newObject = Instantiate(objectToPool);
         pooledObjects.Add(newObject);
         return newObject;
+    }
+
+    public bool AllEnemiesDisabled()
+    {
+        foreach (var obj in pooledObjects)
+        {
+            if (obj.activeInHierarchy)
+                return false;
+        }
+        return true;
+    }
+
+    public void IncreaseEnemiesToActivate()
+    {
+        enemiesToActivate++;
+        ExpandPool();
+    }
+
+    public void ActivateEnemies()
+    {
+        int activated = 0;
+        foreach (var obj in pooledObjects)
+        {
+            if (!obj.activeInHierarchy && activated < enemiesToActivate)
+            {
+                obj.SetActive(true);
+                activated++;
+            }
+        }
+        
     }
 }

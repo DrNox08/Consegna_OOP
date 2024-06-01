@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    
 
     public void StartWave()
     {
-        Enemy.OnStartingWave?.Invoke();
+        if (EnemyPooler.SharedInstance.AllEnemiesDisabled())
+        {
+            EnemyPooler.SharedInstance.IncreaseEnemiesToActivate();
+            EnemyPooler.SharedInstance.ActivateEnemies();
+        }
     }
 }

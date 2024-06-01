@@ -73,8 +73,8 @@ public class Enemy : MonoBehaviour, IDamageable
     void SelfEnable()
     {
         gameObject.SetActive(true);
-        Debug.Log("enemy attivi");
     }
+        
 
     private void OnEnable()
     {

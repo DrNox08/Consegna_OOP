@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2977704533063339073}
   m_Layer: 0
   m_Name: StackBase
-  m_TagString: DropZone
+  m_TagString: Stack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bb7dee2336dce24ca01f0d019c864e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretList: []
 --- !u!65 &2977704533063339073
 BoxCollider:
   m_ObjectHideFlags: 0

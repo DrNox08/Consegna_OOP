@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour, IPickable, ITurret
 {
-    protected bool isActive;
+    [SerializeField] protected bool isActive;
 
 
     
     [SerializeField] protected float fireRate;
-    [SerializeField] protected float shootingRange;
+    [SerializeField] protected float shootingRange = 4.5f;
     [SerializeField] protected LayerMask enemy;
-    [SerializeField] protected float shootDelay;
+    [SerializeField] protected float shootDelay = 2;
     List<Transform> enemiesInRange;
     protected Transform currentTarget;
     protected float fireTime;
@@ -24,9 +24,11 @@ public class Turret : MonoBehaviour, IPickable, ITurret
     public bool IsActive { get => isActive; set => isActive = value; }
     public IBulletPooler CurrentPooler { get => currentPooler; set => currentPooler = value; }
 
-    private void Start()
+    protected virtual void Start()
     {
-        fireRate = 1;
+        shootDelay = 2;
+        shootingRange = 4.5f;
+        fireRate = 2;
         isActive = false;
         fireTime = 0;
         enemiesInRange = new List<Transform>();
@@ -35,7 +37,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
         currentPooler = BaseBulletPooler.SharedInstance;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (isActive)
         {
@@ -50,7 +52,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
         }
     }
 
-    public  void Shoot()
+    public void Shoot()
     {
             if (currentTarget != null)
             {
@@ -67,7 +69,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
             
                
 
-    void UpdateEnemiesInRange()
+    protected void UpdateEnemiesInRange()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, shootingRange, enemy);
         List<Transform> currentEnemies = new();
@@ -88,7 +90,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
         
         
 
-    void UpdateTarget() // decide quale enemy andare a prendere
+   protected void UpdateTarget() // decide quale enemy andare a prendere
     {
         if (currentTarget == null && enemiesInRange.Count > 0)
         {
@@ -102,7 +104,7 @@ public class Turret : MonoBehaviour, IPickable, ITurret
         }
     }
         
-    bool EnemyIsInRange(Transform target)
+    protected bool EnemyIsInRange(Transform target)
     {
         if (target == null)
             return false;
