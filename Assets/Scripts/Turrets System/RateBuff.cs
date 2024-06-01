@@ -6,31 +6,31 @@ public class RateBuff : MonoBehaviour, IPickable, IBuff
 {
     readonly float fireRateMultiplier = 1f;
     
-    List<Turret> buffedTurrets;
+    List<ITurret> buffedTurrets;
 
     private void Start()
     {
-        buffedTurrets = new List<Turret>();
+        buffedTurrets = new List<ITurret>();
     }
 
 
 
-    public void ApplyBuff(Turret turret)
+    public void ApplyBuff(ITurret turret)
     {
         if (!buffedTurrets.Contains(turret))
         {
-            turret.fireRate += fireRateMultiplier;
+            turret.FireRate += fireRateMultiplier;
             buffedTurrets.Add(turret);
         }
     }
         
             
 
-    public void RemoveBuff(Turret turret)
+    public void RemoveBuff(ITurret turret)
     {
         if(buffedTurrets.Contains(turret))
         {
-            turret.fireRate -= fireRateMultiplier;
+            turret.FireRate -= fireRateMultiplier;
             buffedTurrets.Remove(turret);
         }
     }

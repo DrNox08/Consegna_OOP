@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Turret : MonoBehaviour, IPickable
+public class Turret : MonoBehaviour, IPickable, ITurret
 {
-    public bool isActive;
+    protected bool isActive;
 
 
-    public float baseFireRate;
-    public float fireRate;
+    
+    protected float fireRate;
     [SerializeField] protected float shootingRange;
     [SerializeField] protected LayerMask enemy;
     List<Transform> enemiesInRange;
@@ -19,9 +19,13 @@ public class Turret : MonoBehaviour, IPickable
     //poolers
     public IBulletPooler currentPooler;
 
+    public float FireRate { get => fireRate; set => fireRate = value; }
+    public bool IsActive { get => isActive; set => isActive = value; }
+    public IBulletPooler CurrentPooler { get => currentPooler; set => currentPooler = value; }
+
     private void Start()
     {
-        baseFireRate = fireRate;
+        fireRate = 1;
         isActive = false;
         fireTime = 0;
         enemiesInRange = new List<Transform>();

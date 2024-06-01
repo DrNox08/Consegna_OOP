@@ -17,7 +17,7 @@ public class PickCommand : Command
             if (hit.transform)
             {
                 picker.SetObject(hit.transform.gameObject);
-                if(hit.transform.TryGetComponent(out Turret turret) ) { turret.isActive = false; }
+                if(hit.transform.TryGetComponent(out ITurret turret) ) { turret.IsActive = false; }
             }
         }
         else

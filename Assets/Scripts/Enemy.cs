@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] int hp;
     [SerializeField] Material redMaterial;
     Renderer objRenderer;
+    Material originalMaterial;
     int fullHP;
 
     Vector3 startPosition;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private void Start()
     {
         startPosition = transform.position;
+        originalMaterial = objRenderer.material;
     }
         
 
@@ -28,10 +30,12 @@ public class Enemy : MonoBehaviour, IDamageable
         if (hp <= 0)
             gameObject.SetActive(false);
     }
-        
-    public void GetEffect() => StartCoroutine(DecreaseHealth());
 
-    
+    public void GetEffect()
+    {
+        if( gameObject.activeInHierarchy )
+            StartCoroutine(DecreaseHealth());
+    }
 
     IEnumerator DecreaseHealth()
     {
@@ -50,6 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         fullHP = hp;
+        objRenderer.material = originalMaterial;
         gameObject.layer = 7;
     }
 

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class FireBuff : MonoBehaviour, IBuff
 {
-    public void ApplyBuff(Turret turret)
+    public void ApplyBuff(ITurret turret)
     {
-        turret.currentPooler = FireBulletPooler.SharedInstance;
+        turret.CurrentPooler = FireBulletPooler.SharedInstance;
     }
 
-    public void RemoveBuff(Turret turret)
+    public void RemoveBuff(ITurret turret)
     {
-        turret.currentPooler = BaseBulletPooler.SharedInstance;
+        turret.CurrentPooler = BaseBulletPooler.SharedInstance;
     }
 }
 

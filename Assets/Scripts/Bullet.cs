@@ -20,11 +20,12 @@ public class Bullet : MonoBehaviour, IBullet
     
     private void FixedUpdate()
     {
-        if (enemyTarget != null)
+        if (enemyTarget != null && enemyTarget.gameObject.activeInHierarchy)
         {
             Vector3 direction = (enemyTarget.position - rb.position).normalized;
             rb.velocity = direction * speed;
         }
+        else gameObject.SetActive(false);
     }
 
 

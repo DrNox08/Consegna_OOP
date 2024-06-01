@@ -5,13 +5,13 @@ using UnityEngine;
 public class StackController : MonoBehaviour
 {
     
-    public List<Turret> turretList;
+    public List<ITurret> turretList;
     
     List<IBuff> buffsList;
 
     private void Start()
     {
-        turretList = new List<Turret>();
+        turretList = new List<ITurret>();
         
         buffsList = new List<IBuff>();
     }
@@ -20,9 +20,9 @@ public class StackController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (GameManager.anObjectIsHeld) return;
-        if (other.TryGetComponent(out Turret turret))
+        if (other.TryGetComponent(out ITurret turret))
         {
-            turret.isActive = true;
+            turret.IsActive = true;
             foreach (IBuff buff in buffsList)
             {
                 turretList.Add(turret);
@@ -32,7 +32,7 @@ public class StackController : MonoBehaviour
         else if (other.TryGetComponent(out IBuff buff) && !buffsList.Contains(buff))
         {
             buffsList.Add(buff);
-            foreach (Turret t in turretList)
+            foreach (ITurret t in turretList)
             {
                 buff.ApplyBuff(t);
             }
@@ -51,7 +51,7 @@ public class StackController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!GameManager.anObjectIsHeld) return;
-        if(other.TryGetComponent(out Turret turret))
+        if(other.TryGetComponent(out ITurret turret))
         {
             foreach(IBuff buff in buffsList)
             {
@@ -63,7 +63,7 @@ public class StackController : MonoBehaviour
         else if (other.TryGetComponent(out IBuff buff))
         {
             buffsList.Remove(buff);
-            foreach(Turret turretToNerf in turretList)
+            foreach(ITurret turretToNerf in turretList)
                 buff.RemoveBuff(turretToNerf);
         }
             

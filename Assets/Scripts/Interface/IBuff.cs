@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBuff 
 {
-    public void ApplyBuff(Turret turret);
+    public void ApplyBuff(ITurret turret);
 
-    public void RemoveBuff(Turret turret);
+    public void RemoveBuff(ITurret turret);
 }
