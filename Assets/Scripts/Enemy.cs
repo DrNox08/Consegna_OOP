@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDamageable
     Renderer objRenderer;
     Material originalMaterial;
     NavMeshAgent agent;
+    EnemyHPBar uiComponent;
     int fullHP;
 
     Vector3 startPosition;
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         objRenderer = GetComponent<Renderer>();
         agent = GetComponent<NavMeshAgent>();
+        uiComponent = GetComponentInChildren<EnemyHPBar>();
         OnStartingWave += SelfEnable;
     }
 
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public void GetDamage(int damage)
     {
         hp -= damage;
+        uiComponent.DecreaseHealthBar(fullHP);
         if (hp <= 0)
             gameObject.SetActive(false);
     }
@@ -57,6 +60,7 @@ public class Enemy : MonoBehaviour, IDamageable
         while (hp>0)
         {
             hp--;
+            uiComponent.DecreaseHealthBar(fullHP);
             yield return new WaitForSeconds(damageInterval);
         }
         yield return null;
