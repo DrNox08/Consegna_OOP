@@ -66,7 +66,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Base")) gameObject.SetActive(false);
+        if(collision.gameObject.CompareTag("Base"))
+        {
+            gameObject.SetActive(false);
+            Base.OnEnemyAttack?.Invoke();
+        }
     }
         
 

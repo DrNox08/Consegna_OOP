@@ -6,8 +6,14 @@ public class GameManager : MonoBehaviour
 {
     public static bool anObjectIsHeld;
 
+    private void Awake()
+    {
+        Time.timeScale = 1.0f;
+    }
+
     private void Start()
     {
         anObjectIsHeld = false;
+        
     }
 }
