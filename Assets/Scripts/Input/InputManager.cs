@@ -15,6 +15,8 @@ public static class InputManager
 
     public static bool MouseLeft => actionMap.Player.Pressing.WasPerformedThisFrame();
 
+    public static float MouveMovement => actionMap.Player.Moving.ReadValue<float>();
+
 
     //public static bool IsPressing(out float button)
     //{
